@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tejaswini Marri | DevOps Engineer</title>
+    <title>Tejaswini | DevOps Engineer</title>
+    <meta name="description" content="DevOps Engineer specializing in AWS, Kubernetes, Terraform, and CI/CD automation with 5+ years of experience">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -35,7 +36,6 @@
             overflow-x: hidden;
         }
 
-        /* Animated background grid */
         .bg-grid {
             position: fixed;
             top: 0;
@@ -56,7 +56,6 @@
             100% { transform: translate(50px, 50px); }
         }
 
-        /* Container */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -65,7 +64,6 @@
             z-index: 1;
         }
 
-        /* Header/Navigation */
         header {
             padding: 2rem 0;
             position: sticky;
@@ -130,7 +128,6 @@
             width: 100%;
         }
 
-        /* Hero Section */
         .hero {
             padding: 6rem 0 4rem;
             animation: fadeInUp 1s ease-out;
@@ -277,6 +274,10 @@
             align-items: center;
             gap: 0.5rem;
             border: 2px solid;
+            cursor: pointer;
+            background: none;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
         }
 
         .btn-primary {
@@ -304,7 +305,6 @@
             transform: translateY(-2px);
         }
 
-        /* Section Titles */
         .section {
             padding: 5rem 0;
         }
@@ -340,23 +340,48 @@
             max-width: 700px;
         }
 
-        /* Projects Grid */
+        .experience-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--terminal-text);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--terminal-text), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
         .projects-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
             margin-top: 3rem;
-        }
-
-        /* Note about updating projects */
-        .projects-note {
-            margin-top: 2rem;
-            padding: 1.5rem;
-            background: rgba(0, 255, 136, 0.05);
-            border-left: 4px solid var(--terminal-text);
-            border-radius: 8px;
-            color: var(--text-gray);
-            font-style: italic;
         }
 
         .project-card {
@@ -461,7 +486,6 @@
             transform: translateX(5px);
         }
 
-        /* Skills Grid */
         .skills-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -522,7 +546,6 @@
             border: 1px solid rgba(0, 255, 136, 0.2);
         }
 
-        /* Certifications */
         .cert-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -590,45 +613,150 @@
             font-size: 0.9rem;
         }
 
-        /* Experience Stats */
-        .experience-stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-            margin-top: 3rem;
-            margin-bottom: 3rem;
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease-out;
         }
 
-        .stat-card {
+        .modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
             background: var(--card-bg);
-            padding: 2rem;
-            border-radius: 12px;
             border: 1px solid var(--border-color);
-            text-align: center;
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--text-gray);
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .modal-close:hover {
+            color: var(--terminal-text);
+            background: rgba(0, 255, 136, 0.1);
+        }
+
+        .modal-content h2 {
+            color: var(--terminal-text);
+            margin-bottom: 0.5rem;
+            font-size: 1.8rem;
+        }
+
+        .modal-content p {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: var(--text-white);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.9rem;
+            background: var(--terminal-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-white);
+            font-size: 1rem;
+            font-family: 'Outfit', sans-serif;
             transition: all 0.3s;
         }
 
-        .stat-card:hover {
+        .form-group input:focus {
+            outline: none;
             border-color: var(--terminal-text);
-            transform: translateY(-5px);
+            box-shadow: 0 0 0 3px rgba(0, 255, 136, 0.1);
         }
 
-        .stat-number {
-            font-size: 3rem;
+        .form-group input.error {
+            border-color: #ff5f56;
+        }
+
+        .error-message {
+            color: #ff5f56;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .form-submit {
+            width: 100%;
+            padding: 1rem;
+            background: var(--terminal-text);
+            color: var(--terminal-bg);
+            border: 2px solid var(--terminal-text);
+            border-radius: 8px;
+            font-size: 1rem;
             font-weight: 700;
-            background: linear-gradient(135deg, var(--terminal-text), var(--accent-blue));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
         }
 
-        .stat-label {
-            color: var(--text-gray);
-            font-size: 1.1rem;
+        .form-submit:hover {
+            background: transparent;
+            color: var(--terminal-text);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
         }
 
-        /* Contact Section */
         .contact-section {
             background: var(--card-bg);
             border-radius: 12px;
@@ -677,7 +805,6 @@
             box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
         }
 
-        /* Footer */
         footer {
             padding: 3rem 0;
             text-align: center;
@@ -686,7 +813,6 @@
             margin-top: 5rem;
         }
 
-        /* Responsive */
         @media (max-width: 768px) {
             h1 {
                 font-size: 2.5rem;
@@ -711,7 +837,6 @@
             }
         }
 
-        /* Scroll animations */
         .fade-in {
             opacity: 0;
             transform: translateY(30px);
@@ -766,7 +891,7 @@
             </div>
 
             <div class="hero-content">
-                <h1>Tejaswini Marri</h1>
+                <h1>Tejaswini</h1>
                 <p class="subtitle">DevOps & Cloud Engineer</p>
                 <p class="hero-description">
                     I build reliable, scalable cloud infrastructure using modern DevOps practices. 
@@ -776,9 +901,9 @@
                     <a href="#projects" class="btn btn-primary">
                         <span>View My Work</span>
                     </a>
-                    <a href="https://cdn.gamma.app/8o26a3pa9err4nr/0bf3b7bcec8a477b85292785be3e87ab/file/Tejaswini-Marri_Devops-Engineer_Resume.pdf" class="btn btn-secondary" target="_blank">
+                    <button id="downloadResumeBtn" class="btn btn-secondary">
                         <span>Download Resume</span>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -851,7 +976,7 @@
                     </div>
                 </div>
 
-                <div class="project-card fade-in fade-in-delay-2" style="background: var(--card-bg); border: 2px dashed var(--border-color); display: flex; align-items: center; justify-content: center; min-height: 400px;">
+                <div class="project-card fade-in fade-in-delay-2" style="border: 2px dashed var(--border-color); display: flex; align-items: center; justify-content: center; min-height: 400px;">
                     <div style="text-align: center; padding: 3rem;">
                         <div style="font-size: 4rem; margin-bottom: 1rem;">➕</div>
                         <h3 style="color: var(--text-gray); margin-bottom: 0.5rem;">More Projects Coming Soon</h3>
@@ -987,16 +1112,231 @@
         </div>
     </section>
 
+    <div id="resumeModal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="closeModalBtn">&times;</button>
+            <h2>Download Resume</h2>
+            <p>Please provide your details to download my resume</p>
+            <form id="resumeForm">
+                <div class="form-group">
+                    <label for="userName">Full Name *</label>
+                    <input 
+                        type="text" 
+                        id="userName" 
+                        name="userName" 
+                        placeholder="Enter your first and last name"
+                        required
+                    >
+                    <span class="error-message" id="nameError">Please enter your full name (first and last name, letters only)</span>
+                </div>
+                <div class="form-group">
+                    <label for="userEmail">Email Address *</label>
+                    <input 
+                        type="email" 
+                        id="userEmail" 
+                        name="userEmail" 
+                        placeholder="your.email@example.com"
+                        required
+                    >
+                    <span class="error-message" id="emailError">Please enter a valid email address (e.g., name@example.com)</span>
+                </div>
+                <button type="submit" class="form-submit">Download Resume</button>
+            </form>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
-            <p>&copy; 2026 Tejaswini Marri. Built with passion for automation and infrastructure.</p>
+            <p>&copy; 2026 Tejaswini. Built with passion for automation and infrastructure.</p>
         </div>
     </footer>
 
     <script>
-        // Smooth scrolling for navigation links
         document.addEventListener('DOMContentLoaded', function() {
-            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            const modal = document.getElementById('resumeModal');
+            const downloadBtn = document.getElementById('downloadResumeBtn');
+            const closeBtn = document.getElementById('closeModalBtn');
+            const form = document.getElementById('resumeForm');
+            const nameInput = document.getElementById('userName');
+            const emailInput = document.getElementById('userEmail');
+            const nameError = document.getElementById('nameError');
+            const emailError = document.getElementById('emailError');
+
+            if (downloadBtn) {
+                downloadBtn.addEventListener('click', function() {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                });
+            }
+
+            function closeModal() {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+                form.reset();
+                nameInput.classList.remove('error');
+                emailInput.classList.remove('error');
+                nameError.classList.remove('show');
+                emailError.classList.remove('show');
+            }
+
+            if (closeBtn) {
+                closeBtn.addEventListener('click', closeModal);
+            }
+
+            modal.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    closeModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape' && modal.classList.contains('active')) {
+                    closeModal();
+                }
+            });
+
+            function validateName(name) {
+                const trimmedName = name.trim();
+                const validCharsRegex = /^[a-zA-Z\s'-]+$/;
+                
+                if (!validCharsRegex.test(trimmedName)) {
+                    return false;
+                }
+                
+                const words = trimmedName.split(/\s+/).filter(word => word.length > 0);
+                if (words.length < 2) {
+                    return false;
+                }
+                
+                // Each word must be at least 2 characters
+                for (let word of words) {
+                    if (word.length < 2) {
+                        return false;
+                    }
+                }
+                
+                // Check for fake/test patterns in names
+                const fakePatternsName = ['test', 'fake', 'asdf', 'qwer', 'xyz', 'abc', 'dummy', 'temp', 'random'];
+                const lowerName = trimmedName.toLowerCase();
+                for (let pattern of fakePatternsName) {
+                    if (lowerName.includes(pattern)) {
+                        return false;
+                    }
+                }
+                
+                // Check for repeated characters (like "aaaa" or "xxxx")
+                for (let word of words) {
+                    const lowerWord = word.toLowerCase();
+                    // Check if word has 3+ same characters in a row
+                    if (/(.)\1{2,}/.test(lowerWord)) {
+                        return false;
+                    }
+                }
+                
+                return true;
+            }
+
+            function validateEmail(email) {
+                const trimmedEmail = email.trim();
+                const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                
+                if (!emailRegex.test(trimmedEmail)) {
+                    return false;
+                }
+                
+                const parts = trimmedEmail.split('@');
+                if (parts.length !== 2) {
+                    return false;
+                }
+                
+                const [localPart, domain] = parts;
+                
+                // Local part must be at least 4 characters
+                if (localPart.length < 4) {
+                    return false;
+                }
+                
+                if (!domain.includes('.')) {
+                    return false;
+                }
+                
+                const domainParts = domain.split('.');
+                for (let part of domainParts) {
+                    if (part.length < 2) {
+                        return false;
+                    }
+                }
+                
+                // Block common fake email patterns
+                const fakePatterns = ['test', 'fake', 'temp', 'dummy', 'asdf', 'qwer', 'xyz', 'abc', 'example', 'sample', 'demo', 'random', 'xxxx'];
+                const lowerLocal = localPart.toLowerCase();
+                
+                for (let pattern of fakePatterns) {
+                    if (lowerLocal.includes(pattern)) {
+                        return false;
+                    }
+                }
+                
+                // Check for repeated characters (like "xxxx", "aaaa")
+                if (/(.)\1{2,}/.test(lowerLocal)) {
+                    return false;
+                }
+                
+                // Check if local part has at least some vowels (real names usually do)
+                const vowelCount = (lowerLocal.match(/[aeiou]/g) || []).length;
+                if (vowelCount < 1) {
+                    return false;
+                }
+                
+                // Block very short gibberish-looking local parts
+                // Real emails usually have recognizable patterns
+                if (localPart.length < 5) {
+                    return false;
+                }
+                
+                return true;
+            }
+
+            if (form) {
+                form.addEventListener('submit', function(event) {
+                    event.preventDefault();
+                    
+                    let isValid = true;
+                    
+                    nameInput.classList.remove('error');
+                    emailInput.classList.remove('error');
+                    nameError.classList.remove('show');
+                    emailError.classList.remove('show');
+                    
+                    if (!validateName(nameInput.value)) {
+                        nameInput.classList.add('error');
+                        nameError.classList.add('show');
+                        isValid = false;
+                    }
+                    
+                    if (!validateEmail(emailInput.value)) {
+                        emailInput.classList.add('error');
+                        emailError.classList.add('show');
+                        isValid = false;
+                    }
+                    
+                    if (isValid) {
+                        console.log('Resume download requested by:', {
+                            name: nameInput.value,
+                            email: emailInput.value,
+                            timestamp: new Date().toISOString()
+                        });
+                        
+                        const resumeUrl = 'https://cdn.gamma.app/8o26a3pa9err4nr/0bf3b7bcec8a477b85292785be3e87ab/file/Tejaswini-Marri_Devops-Engineer_Resume.pdf';
+                        window.open(resumeUrl, '_blank');
+                        
+                        closeModal();
+                        alert('Thank you! Your resume is opening in a new tab.');
+                    }
+                });
+            }
+
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
                     const href = this.getAttribute('href');
@@ -1009,16 +1349,25 @@
                     }
                 });
             });
+
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.fade-in').forEach(function(el) {
+                observer.observe(el);
+            });
         });
-
-        // Intersection Observer for fade-in animations
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-               
+    </script>
+</body>
+</html>
