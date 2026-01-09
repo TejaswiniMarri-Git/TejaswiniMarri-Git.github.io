@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tejaswini Marri | DevOps Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terminal-bg: #0a0e14;
+            --terminal-text: #00ff88;
+            --terminal-dim: #4d7c5e;
+            --accent-orange: #ff8800;
+            --accent-blue: #00aaff;
+            --accent-purple: #aa00ff;
+            --text-white: #e6e6e6;
+            --text-gray: #9ca3af;
+            --card-bg: #151b23;
+            --border-color: #1f2937;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', -apple-system, sans-serif;
+            background: var(--terminal-bg);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated background grid */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 136, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 136, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridMove 20s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Header/Navigation */
+        header {
+            padding: 2rem 0;
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 20, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--terminal-text);
+            text-decoration: none;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0%, 90%, 100% { text-shadow: none; }
+            92% { text-shadow: 2px 0 var(--accent-orange), -2px 0 var(--accent-blue); }
+            94% { text-shadow: -2px 0 var(--accent-orange), 2px 0 var(--accent-blue); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--terminal-text);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--terminal-text);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 6rem 0 4rem;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .terminal-window {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .terminal-header {
+            background: #1a1f2b;
+            padding: 0.8rem 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .terminal-btn {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .terminal-btn.close { background: #ff5f56; }
+        .terminal-btn.minimize { background: #ffbd2e; }
+        .terminal-btn.maximize { background: #27c93f; }
+
+        .terminal-title {
+            margin-left: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-gray);
+        }
+
+        .terminal-body {
+            padding: 2rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.95rem;
+        }
+
+        .terminal-line {
+            margin-bottom: 0.5rem;
+            animation: typewriter 0.5s steps(40) forwards;
+            opacity: 0;
+        }
+
+        .terminal-line:nth-child(1) { animation-delay: 0.3s; }
+        .terminal-line:nth-child(2) { animation-delay: 0.8s; }
+        .terminal-line:nth-child(3) { animation-delay: 1.3s; }
+        .terminal-line:nth-child(4) { animation-delay: 1.8s; }
+        .terminal-line:nth-child(5) { animation-delay: 2.3s; }
+
+        @keyframes typewriter {
+            to { opacity: 1; }
+        }
+
+        .prompt {
+            color: var(--accent-blue);
+        }
+
+        .path {
+            color: var(--accent-purple);
+        }
+
+        .command {
+            color: var(--terminal-text);
+        }
+
+        .output {
+            color: var(--text-gray);
+            padding-left: 0;
+        }
+
+        .cursor {
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .hero-content {
+            margin-top: 3rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--terminal-text), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 2px solid;
+        }
+
+        .btn-primary {
+            background: var(--terminal-text);
+            color: var(--terminal-bg);
+            border-color: var(--terminal-text);
+        }
+
+        .btn-primary:hover {
+            background: transparent;
+            color: var(--terminal-text);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-white);
+            border-color: var(--border-color);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--terminal-text);
+            color: var(--terminal-text);
+            transform: translateY(-2px);
+        }
+
+        /* Section Titles */
+        .section {
+            padding: 5rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title::before {
+            content: '$ ';
+            color: var(--terminal-text);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 50%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--terminal-text), transparent);
+        }
+
+        .section-subtitle {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* Note about updating projects */
+        .projects-note {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 255, 136, 0.05);
+            border-left: 4px solid var(--terminal-text);
+            border-radius: 8px;
+            color: var(--text-gray);
+            font-style: italic;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .project-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--terminal-text), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--terminal-text);
+            box-shadow: 0 20px 40px rgba(0, 255, 136, 0.2);
+        }
+
+        .project-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .project-header {
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 170, 255, 0.1));
+            padding: 2rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .project-card h3 {
+            color: var(--terminal-text);
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card .project-type {
+            color: var(--accent-orange);
+            font-size: 0.9rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .project-body {
+            padding: 2rem;
+        }
+
+        .project-description {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--terminal-text);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--terminal-text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .project-link:hover {
+            color: var(--accent-blue);
+            transform: translateX(5px);
+        }
+
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--terminal-text), var(--accent-blue));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--terminal-text);
+        }
+
+        .skill-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .skill-card h3 {
+            color: var(--terminal-text);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .tag {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--terminal-text);
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', monospace;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        /* Certifications */
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .cert-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .cert-card::before {
+            content: '✓';
+            position: absolute;
+            top: -15px;
+            right: -15px;
+            width: 40px;
+            height: 40px;
+            background: var(--terminal-text);
+            color: var(--terminal-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+        }
+
+        .cert-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--terminal-text);
+        }
+
+        .cert-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+        }
+
+        .cert-card h3 {
+            color: var(--terminal-text);
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-issuer {
+            color: var(--text-gray);
+            margin-bottom: 1rem;
+        }
+
+        .cert-date {
+            color: var(--accent-orange);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+        }
+
+        /* Experience Stats */
+        .experience-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: var(--terminal-text);
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--terminal-text), var(--accent-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: var(--card-bg);
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 3rem;
+            margin-top: 3rem;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-section p {
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            color: var(--terminal-text);
+            text-decoration: none;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .social-link:hover {
+            background: var(--terminal-text);
+            color: var(--terminal-bg);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 0;
+            text-align: center;
+            color: var(--text-gray);
+            border-top: 1px solid var(--border-color);
+            margin-top: 5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .skills-grid,
+            .cert-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        .fade-in-delay-1 { animation-delay: 0.1s; }
+        .fade-in-delay-2 { animation-delay: 0.2s; }
+        .fade-in-delay-3 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body>
+    <div class="bg-grid"></div>
+    
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">tejaswini@devops:~$</a>
+                <ul class="nav-links">
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#projects">Projects</a></li>
+                    <li><a href="#skills">Skills</a></li>
+                    <li><a href="#certifications">Certifications</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <div class="terminal-window">
+                <div class="terminal-header">
+                    <span class="terminal-btn close"></span>
+                    <span class="terminal-btn minimize"></span>
+                    <span class="terminal-btn maximize"></span>
+                    <span class="terminal-title">tejaswini@aws-cloud: ~</span>
+                </div>
+                <div class="terminal-body">
+                    <div class="terminal-line">
+                        <span class="prompt">tejaswini@aws-cloud</span>:<span class="path">~</span>$ <span class="command">whoami</span>
+                    </div>
+                    <div class="terminal-line output">DevOps Engineer | Building scalable cloud infrastructure & automation</div>
+                    <div class="terminal-line">
+                        <span class="prompt">tejaswini@aws-cloud</span>:<span class="path">~</span>$ <span class="command">cat expertise.txt</span>
+                    </div>
+                    <div class="terminal-line output">AWS | Kubernetes | Terraform | Docker | CI/CD | Python</div>
+                    <div class="terminal-line">
+                        <span class="prompt">tejaswini@aws-cloud</span>:<span class="path">~</span>$ <span class="cursor">▊</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-content">
+                <h1>Tejaswini Marri</h1>
+                <p class="subtitle">DevOps & Cloud Engineer</p>
+                <p class="hero-description">
+                    I build reliable, scalable cloud infrastructure using modern DevOps practices. 
+                    Specializing in Kubernetes orchestration, CI/CD automation, and Infrastructure-as-Code with 5+ years of hands-on experience.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn btn-primary">
+                        <span>View My Work</span>
+                    </a>
+                    <a href="https://cdn.gamma.app/8o26a3pa9err4nr/0bf3b7bcec8a477b85292785be3e87ab/file/Tejaswini-Marri_Devops-Engineer_Resume.pdf" class="btn btn-secondary" target="_blank">
+                        <span>Download Resume</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <div class="experience-stats fade-in">
+                <div class="stat-card">
+                    <div class="stat-number">5+</div>
+                    <div class="stat-label">Years Experience</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Certifications</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Technologies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Automation Focus</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Featured Projects</h2>
+            <p class="section-subtitle fade-in">Real-world implementations showcasing DevOps best practices and cloud-native architectures</p>
+            
+            <div class="projects-grid">
+                <div class="project-card fade-in fade-in-delay-1">
+                    <div class="project-header">
+                        <div class="project-icon">🚀</div>
+                        <h3>DevOps Microservices Platform</h3>
+                        <p class="project-type">Full-Stack CI/CD</p>
+                    </div>
+                    <div class="project-body">
+                        <p class="project-description">
+                            End-to-end microservices application with automated deployment pipeline, containerization, 
+                            and infrastructure provisioning. Demonstrates production-grade DevOps practices with GitHub Actions, 
+                            Docker multi-stage builds, Kubernetes orchestration, and Infrastructure as Code using Terraform.
+                        </p>
+                        <div class="project-tech">
+                            <span class="tech-tag">Node.js</span>
+                            <span class="tech-tag">React</span>
+                            <span class="tech-tag">Docker</span>
+                            <span class="tech-tag">Kubernetes</span>
+                            <span class="tech-tag">GitHub Actions</span>
+                            <span class="tech-tag">Terraform</span>
+                            <span class="tech-tag">Trivy</span>
+                        </div>
+                        <h4 style="color: var(--terminal-text); margin-bottom: 0.8rem; font-size: 1.1rem;">Key Features:</h4>
+                        <ul style="color: var(--text-gray); line-height: 1.9; margin-bottom: 1.5rem; padding-left: 1.2rem;">
+                            <li>✓ Automated CI/CD pipeline with GitHub Actions</li>
+                            <li>✓ Multi-stage Docker builds for optimized images</li>
+                            <li>✓ Container images published to Docker Hub</li>
+                            <li>✓ Kubernetes-ready deployment manifests</li>
+                            <li>✓ Infrastructure provisioning with Terraform</li>
+                            <li>✓ Security scanning with Trivy</li>
+                        </ul>
+                        <div class="project-links">
+                            <a href="https://github.com/TejaswiniMarri-Git/devops-microservices-project" class="project-link" target="_blank">
+                                View on GitHub →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card fade-in fade-in-delay-2" style="background: var(--card-bg); border: 2px dashed var(--border-color); display: flex; align-items: center; justify-content: center; min-height: 400px;">
+                    <div style="text-align: center; padding: 3rem;">
+                        <div style="font-size: 4rem; margin-bottom: 1rem;">➕</div>
+                        <h3 style="color: var(--text-gray); margin-bottom: 0.5rem;">More Projects Coming Soon</h3>
+                        <p style="color: var(--text-gray); opacity: 0.7;">Building new DevOps solutions...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Technical Expertise</h2>
+            <p class="section-subtitle fade-in">Core technologies and tools I use to build reliable infrastructure</p>
+            <div class="skills-grid">
+                <div class="skill-card fade-in fade-in-delay-1">
+                    <h3>☁️ Cloud & AWS</h3>
+                    <div class="skill-tags">
+                        <span class="tag">EC2</span>
+                        <span class="tag">EKS</span>
+                        <span class="tag">ECR</span>
+                        <span class="tag">RDS</span>
+                        <span class="tag">S3</span>
+                        <span class="tag">IAM</span>
+                        <span class="tag">VPC</span>
+                        <span class="tag">CloudWatch</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in fade-in-delay-2">
+                    <h3>🐳 Containers & Orchestration</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Docker</span>
+                        <span class="tag">Kubernetes</span>
+                        <span class="tag">Amazon EKS</span>
+                        <span class="tag">Helm</span>
+                        <span class="tag">Multi-stage builds</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in fade-in-delay-3">
+                    <h3>🔄 CI/CD & Automation</h3>
+                    <div class="skill-tags">
+                        <span class="tag">GitHub Actions</span>
+                        <span class="tag">Jenkins</span>
+                        <span class="tag">Azure DevOps</span>
+                        <span class="tag">ArgoCD</span>
+                        <span class="tag">Git</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in fade-in-delay-1">
+                    <h3>🏗️ IaC & Configuration</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Terraform</span>
+                        <span class="tag">Ansible</span>
+                        <span class="tag">CloudFormation</span>
+                        <span class="tag">Drift detection</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in fade-in-delay-2">
+                    <h3>💻 Scripting & Programming</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Bash</span>
+                        <span class="tag">Python</span>
+                        <span class="tag">SQL</span>
+                        <span class="tag">Node.js</span>
+                        <span class="tag">Java</span>
+                    </div>
+                </div>
+
+                <div class="skill-card fade-in fade-in-delay-3">
+                    <h3>📊 Monitoring & Security</h3>
+                    <div class="skill-tags">
+                        <span class="tag">Prometheus</span>
+                        <span class="tag">Grafana</span>
+                        <span class="tag">Splunk</span>
+                        <span class="tag">Trivy</span>
+                        <span class="tag">CloudWatch</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certifications" class="section">
+        <div class="container">
+            <h2 class="section-title fade-in">Professional Certifications</h2>
+            <p class="section-subtitle fade-in">Industry-recognized credentials validating expertise</p>
+            <div class="cert-grid">
+                <div class="cert-card fade-in fade-in-delay-1">
+                    <div class="cert-icon">☁️</div>
+                    <h3>AWS Certified Solutions Architect</h3>
+                    <p class="cert-issuer">Amazon Web Services (AWS)</p>
+                    <p class="cert-date">Associate Level</p>
+                </div>
+
+                <div class="cert-card fade-in fade-in-delay-2">
+                    <div class="cert-icon">⎈</div>
+                    <h3>Certified Kubernetes Administrator</h3>
+                    <p class="cert-issuer">Cloud Native Computing Foundation</p>
+                    <p class="cert-date">Dec 2025 | ID: LF-dl06qzkhvb</p>
+                </div>
+
+                <div class="cert-card fade-in fade-in-delay-3">
+                    <div class="cert-icon">🐍</div>
+                    <h3>PCEP - Entry-Level Python Programmer</h3>
+                    <p class="cert-issuer">Python Institute</p>
+                    <p class="cert-date">Apr 2021</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <div class="container">
+            <div class="contact-section fade-in">
+                <h2>Let's Build Something Great</h2>
+                <p>Open to opportunities in DevOps, Cloud Architecture, and Site Reliability Engineering. Let's discuss how automation and infrastructure excellence can drive innovation.</p>
+                <div class="social-links">
+                    <a href="mailto:marritejaswini5@gmail.com" class="social-link">
+                        📧 marritejaswini5@gmail.com
+                    </a>
+                    <a href="https://www.linkedin.com/in/tejaswini-marri/" class="social-link" target="_blank">
+                        💼 LinkedIn
+                    </a>
+                    <a href="https://github.com/TejaswiniMarri-Git" class="social-link" target="_blank">
+                        💻 GitHub
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Tejaswini Marri. Built with passion for automation and infrastructure.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const href = this.getAttribute('href');
+                    const target = document.querySelector(href);
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        });
+
+        // Intersection Observer for fade-in animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+               
